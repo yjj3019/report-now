@@ -1,0 +1,403 @@
+# cat pcs_config
+Cluster Name: TEST-HA
+Corosync Nodes:
+ node1 node2
+Pacemaker Nodes:
+ node1 node2
+
+Resources:
+  Group: HA-GROUP
+    Resource: Filesystem1 (class=ocf provider=heartbeat type=Filesystem)
+      Attributes: Filesystem1-instance_attributes
+        device=/dev/drbd0
+        directory=/data1
+        fstype=xfs
+        options=noatime
+      Operations:
+        monitor: Filesystem1-monitor-interval-60s
+          interval=60s
+          start-delay=15s
+          timeout=120s
+          OCF_CHECK_LEVEL=20
+        start: Filesystem1-start-interval-0s
+          interval=0s
+          timeout=60s
+        stop: Filesystem1-stop-interval-0s
+          interval=0s
+          timeout=60s
+    Resource: Filesystem2 (class=ocf provider=heartbeat type=Filesystem)
+      Attributes: Filesystem2-instance_attributes
+        device=/dev/drbd1
+        directory=/data2
+        fstype=xfs
+        options=noatime
+      Operations:
+        monitor: Filesystem2-monitor-interval-60
+          interval=60
+          timeout=120
+          OCF_CHECK_LEVEL=20
+        start: Filesystem2-start-interval-0s
+          interval=0s
+          timeout=60s
+        stop: Filesystem2-stop-interval-0s
+          interval=0s
+          timeout=60s
+    Resource: Filesystem3 (class=ocf provider=heartbeat type=Filesystem)
+      Attributes: Filesystem3-instance_attributes
+        device=/dev/drbd2
+        directory=/data3
+        fstype=xfs
+        options=noatime
+      Operations:
+        monitor: Filesystem3-monitor-interval-60
+          interval=60
+          timeout=120
+          OCF_CHECK_LEVEL=20
+        start: Filesystem3-start-interval-0s
+          interval=0s
+          timeout=60s
+        stop: Filesystem3-stop-interval-0s
+          interval=0s
+          timeout=60s
+    Resource: Filesystem4 (class=ocf provider=heartbeat type=Filesystem)
+      Attributes: Filesystem4-instance_attributes
+        device=/dev/drbd3
+        directory=/data4
+        fstype=xfs
+        options=noatime
+      Operations:
+        monitor: Filesystem4-monitor-interval-60
+          interval=60
+          timeout=120
+          OCF_CHECK_LEVEL=20
+        start: Filesystem4-start-interval-0s
+          interval=0s
+          timeout=60s
+        stop: Filesystem4-stop-interval-0s
+          interval=0s
+          timeout=60s
+    Resource: DB (class=ocf provider=heartbeat type=pgsql)
+      Operations:
+        demote: DB-demote-interval-0s
+          interval=0s
+          timeout=120s
+        methods: DB-methods-interval-0s
+          interval=0s
+          timeout=5s
+        monitor: DB-monitor-interval-5
+          interval=5
+          timeout=20
+        notify: DB-notify-interval-0s
+          interval=0s
+          timeout=90s
+        promote: DB-promote-interval-0s
+          interval=0s
+          timeout=120s
+        start: DB-start-interval-0s
+          interval=0s
+          timeout=120s
+        stop: DB-stop-interval-0s
+          interval=0s
+          timeout=120s
+    Resource: VIP (class=ocf provider=heartbeat type=IPaddr2)
+      Attributes: VIP-instance_attributes
+        cidr_netmask=24
+        ip=200.200.200.56
+      Operations:
+        monitor: VIP-monitor-interval-30
+          interval=30
+          timeout=60
+        start: VIP-start-interval-0s
+          interval=0s
+          timeout=20s
+        stop: VIP-stop-interval-0s
+          interval=0s
+          timeout=20s
+  Group: HA-GROUP2
+    Resource: VG (class=ocf provider=heartbeat type=LVM-activate)
+      Attributes: VG-instance_attributes
+        vg_access_mode=system_id
+        vgname=testvg
+      Operations:
+        monitor: VG-monitor-interval-120s
+          interval=120s
+          timeout=180s
+        start: VG-start-interval-0s
+          interval=0s
+          timeout=90s
+        stop: VG-stop-interval-0s
+          interval=0s
+          timeout=90s
+    Resource: Filesystem5 (class=ocf provider=heartbeat type=Filesystem)
+      Attributes: Filesystem5-instance_attributes
+        device=/dev/mapper/testvg-testlv1
+        directory=/test1
+        force_unmount=true
+        fstype=xfs
+        run_fsck=no
+      Operations:
+        monitor: Filesystem5-monitor-interval-120s
+          interval=120s
+          timeout=180s
+          OCF_CHECK_LEVEL=20
+        start: Filesystem5-start-interval-0s
+          interval=0s
+          timeout=180
+        stop: Filesystem5-stop-interval-0s
+          interval=0s
+          timeout=60s
+    Resource: Filesystem6 (class=ocf provider=heartbeat type=Filesystem)
+      Attributes: Filesystem6-instance_attributes
+        device=/dev/mapper/testvg-testlv2
+        directory=/test2
+        force_unmount=true
+        fstype=xfs
+        run_fsck=no
+      Operations:
+        monitor: Filesystem6-monitor-interval-120s
+          interval=120s
+          timeout=180s
+          OCF_CHECK_LEVEL=20
+        start: Filesystem6-start-interval-0s
+          interval=0s
+          timeout=60s
+        stop: Filesystem6-stop-interval-0s
+          interval=0s
+          timeout=60s
+    Resource: Filesystem7 (class=ocf provider=heartbeat type=Filesystem)
+      Attributes: Filesystem7-instance_attributes
+        device=/dev/mapper/testvg-testlv3
+        directory=/test3
+        force_unmount=true
+        fstype=xfs
+        run_fsck=no
+      Operations:
+        monitor: Filesystem7-monitor-interval-120s
+          interval=120s
+          timeout=180s
+          OCF_CHECK_LEVEL=20
+        start: Filesystem7-start-interval-0s
+          interval=0s
+          timeout=60s
+        stop: Filesystem7-stop-interval-0s
+          interval=0s
+          timeout=60s
+    Resource: Filesystem8 (class=ocf provider=heartbeat type=Filesystem)
+      Attributes: Filesystem8-instance_attributes
+        device=/dev/mapper/testvg-testlv4
+        directory=/test4
+        force_unmount=true
+        fstype=xfs
+        run_fsck=no
+      Operations:
+        monitor: Filesystem8-monitor-interval-120s
+          interval=120s
+          timeout=180s
+          OCF_CHECK_LEVEL=20
+        start: Filesystem8-start-interval-0s
+          interval=0s
+          timeout=60s
+        stop: Filesystem8-stop-interval-0s
+          interval=0s
+          timeout=60s
+    Resource: Filesystem9 (class=ocf provider=heartbeat type=Filesystem)
+      Attributes: Filesystem9-instance_attributes
+        device=/dev/mapper/testvg-testlv5
+        directory=/test5
+        force_unmount=true
+        fstype=xfs
+        run_fsck=no
+      Operations:
+        monitor: Filesystem9-monitor-interval-120s
+          interval=120s
+          timeout=180s
+          OCF_CHECK_LEVEL=20
+        start: Filesystem9-start-interval-0s
+          interval=0s
+          timeout=60s
+        stop: Filesystem9-stop-interval-0s
+          interval=0s
+          timeout=60s
+    Resource: Database (class=ocf provider=heartbeat type=mysql)
+      Attributes: Database-instance_attributes
+        trace_ra=1
+      Meta Attributes: Database-meta_attributes
+        failure-timeout=50
+        resource-stickiness=100
+      Operations:
+        demote: Database-demote-interval-0s
+          interval=0s
+          timeout=120s
+        monitor: Database-monitor-interval-20s
+          interval=20s
+          timeout=30s
+        monitor: Database-monitor-interval-10s
+          interval=10s
+          timeout=30s
+          role=Master
+        monitor: Database-monitor-interval-30s
+          interval=30s
+          timeout=30s
+          role=Slave
+        notify: Database-notify-interval-0s
+          interval=0s
+          timeout=90s
+        promote: Database-promote-interval-0s
+          interval=0s
+          timeout=120s
+        start: Database-start-interval-0s
+          interval=0s
+          timeout=120s
+        stop: Database-stop-interval-0s
+          interval=0s
+          timeout=120s
+  Clone: DataSync-clone
+    Meta Attributes: DataSync-clone-meta_attributes
+      clone-node-max=1
+      clonemax=2
+      notify=true
+      promotable=true
+      promoted-max=1
+      promoted-node-max=1
+    Resource: DataSync (class=ocf provider=linbit type=drbd)
+      Attributes: DataSync-instance_attributes
+        drbd_resource=drbd_res01
+      Operations:
+        demote: DataSync-demote-interval-0s
+          interval=0s
+          timeout=90
+        monitor: DataSync-monitor-interval-60
+          interval=60
+          timeout=120
+          role=Master
+        monitor: DataSync-monitor-interval-61
+          interval=61
+          timeout=120
+          role=Slave
+        notify: DataSync-notify-interval-0s
+          interval=0s
+          timeout=90
+        promote: DataSync-promote-interval-0s
+          interval=0s
+          timeout=90
+        reload: DataSync-reload-interval-0s
+          interval=0s
+          timeout=30
+        start: DataSync-start-interval-0s
+          interval=0s
+          timeout=240
+        stop: DataSync-stop-interval-0s
+          interval=0s
+          timeout=100
+  Clone: ping-clone
+    Resource: ping (class=ocf provider=pacemaker type=ping)
+      Attributes: ping-instance_attributes
+        attempts=7
+        dampen=10s
+        host_list=100.100.100.10
+        multiplier=10
+      Operations:
+        monitor: ping-monitor-interval-5s
+          interval=5s
+          timeout=60s
+        reload-agent: ping-reload-agent-interval-0s
+          interval=0s
+          timeout=20s
+        start: ping-start-interval-0s
+          interval=0s
+          timeout=60s
+        stop: ping-stop-interval-0s
+          interval=0s
+          timeout=20s
+
+Stonith Devices:
+  Resource: KDUMP (class=stonith type=fence_kdump)
+    Attributes: KDUMP-instance_attributes
+      pcmk_host_check=static-list
+      pcmk_host_list=node1-hb,node2-hb
+      pcmk_monitor_action=metadata
+      pcmk_off_timeout=120s
+      pcmk_reboot_action=off
+      pcmk_status_action=metadata
+      timeout=120s
+    Operations:
+      monitor: KDUMP-monitor-interval-60s
+        interval=60s
+  Resource: RHEVM (class=stonith type=fence_rhevm)
+    Attributes: RHEVM-instance_attributes
+      disable_http_filter=1
+      ip=100.100.100.103
+      password=********
+      pcmk_host_map=node1:2025-RHEL8.10-drbd-node1-latest;node2:2025-RHEL8.10-drbd-node2-latest
+      power_wait=3
+      ssl=1
+      ssl_insecure=1
+      username=admin@internal
+    Operations:
+      monitor: RHEVM-monitor-interval-60s
+        interval=60s
+Fencing Levels:
+  Target: node1
+    Level 1 - KDUMP
+    Level 2 - RHEVM
+  Target: node2
+    Level 1 - KDUMP
+    Level 2 - RHEVM
+
+Location Constraints:
+  Resource: HA-GROUP
+    Enabled on:
+      Node: node2 (score:500) (id:location-HA-GROUP-node2-500)
+  Resource: HA-GROUP2
+    Enabled on:
+      Node: node1 (score:500) (id:location-HA-GROUP2-node1-500)
+    Constraint: location-HA-GROUP2
+      Rule: boolean-op=or score=-INFINITY (id:location-HA-GROUP2-rule)
+        Expression: pingd lt 1 (id:location-HA-GROUP2-rule-expr)
+        Expression: not_defined pingd (id:location-HA-GROUP2-rule-expr-1)
+Ordering Constraints:
+  promote DataSync-clone then start HA-GROUP (kind:Mandatory) (id:order-DataSync-clone-HA-GROUP-mandatory)
+Colocation Constraints:
+  HA-GROUP with DataSync-clone (score:INFINITY) (with-rsc-role:Master) (id:colocation-HA-GROUP-DataSync-clone-INFINITY)
+Ticket Constraints:
+
+Alerts:
+ No alerts defined
+
+Resources Defaults:
+  Meta Attrs: rsc_defaults-meta_attributes
+    migration-threshold=3
+    resource-stickiness=100
+Operations Defaults:
+  No defaults set
+
+Cluster Properties:
+ cluster-infrastructure: corosync
+ cluster-name: TEST-HA
+ dc-version: 2.1.7-5.2.el8_10-0f7f88312
+ have-watchdog: false
+ last-lrm-refresh: 1754382331
+ maintenance-mode: false
+ stonith-enabled: true
+
+Tags:
+ No tags defined
+
+Quorum:
+  Options:
+  Device:
+    votes: 1
+    Model: net
+      algorithm: ffsplit
+      host: quorum
+# cat ../drbd/drbdsetup_status_all
+drbd_res01 role:Primary
+  volume:0 disk:UpToDate open:yes
+  volume:1 disk:UpToDate open:yes
+  volume:2 disk:UpToDate open:yes
+  volume:3 disk:UpToDate open:yes
+  node1 role:Secondary
+    volume:0 peer-disk:UpToDate
+    volume:1 peer-disk:UpToDate
+    volume:2 peer-disk:UpToDate
+    volume:3 peer-disk:UpToDate
